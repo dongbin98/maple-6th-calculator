@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.dongbin.maple6thcalculator.ui.main.MainViewModel" />
+
+        <variable
+            name="user"
+            type="com.dongbin.maple6thcalculator.data.UserInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.MainActivity">
+
+        <ImageView
+            android:id="@+id/ivCharacterImage"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="36dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCharacterLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:hint="레벨"
+            android:text="@{String.valueOf(Integer.toString(user.level))}"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/tvCharacterJob"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCharacterName" />
+
+        <TextView
+            android:id="@+id/tvCharacterJob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:hint="직업명"
+            android:text="@{user.job}"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvCharacterLevel"
+            app:layout_constraintTop_toBottomOf="@id/tvCharacterName" />
+
+        <TextView
+            android:id="@+id/tvCharacterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="닉네임"
+            android:text="@{user.name}"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivCharacterImage" />
+
+        <EditText
+            android:id="@+id/etSearchName"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCharacterLevel" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/btSearchName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/baseline_search_24"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/etSearchName"
+            app:layout_constraintStart_toEndOf="@id/etSearchName"
+            app:layout_constraintTop_toTopOf="@id/etSearchName" />
+
+        <TextView
+            android:id="@+id/tvNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="현재 강화수치"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/tvGoal"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btSearchName" />
+
+        <TextView
+            android:id="@+id/tvGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="목표 강화수치"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvNow"
+            app:layout_constraintTop_toBottomOf="@id/btSearchName" />
+
+        <TextView
+            android:id="@+id/tvOrigin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="오리진"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNow" />
+
+        <EditText
+            android:id="@+id/etNowOriginLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="0"
+            android:inputType="number"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvOrigin"
+            app:layout_constraintEnd_toStartOf="@id/etGoalOriginLevel"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvOrigin" />
+
+        <EditText
+            android:id="@+id/etGoalOriginLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="30"
+            android:inputType="number"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvOrigin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etNowOriginLevel"
+            app:layout_constraintTop_toTopOf="@id/tvOrigin" />
+
+        <TextView
+            android:id="@+id/tvMastery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="마스터리"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOrigin" />
+
+        <EditText
+            android:id="@+id/etNowMasteryLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:hint="0"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvMastery"
+            app:layout_constraintEnd_toStartOf="@id/etGoalMasteryLevel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvMastery" />
+
+        <EditText
+            android:id="@+id/etGoalMasteryLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:hint="30"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvMastery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etNowMasteryLevel"
+            app:layout_constraintTop_toTopOf="@id/tvMastery" />
+
+        <TextView
+            android:id="@+id/tvEnhance1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="5차강화-1"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMastery" />
+
+        <EditText
+            android:id="@+id/etNowEnhance1Level"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:hint="0"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvEnhance1"
+            app:layout_constraintEnd_toStartOf="@id/etGoalOriginLevel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvEnhance1" />
+
+        <EditText
+            android:id="@+id/etGoalEnhance1Level"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:hint="30"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvEnhance1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etNowOriginLevel"
+            app:layout_constraintTop_toTopOf="@id/tvEnhance1" />
+
+        <TextView
+            android:id="@+id/tvEnhance2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="5차강화-2"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEnhance1" />
+
+        <EditText
+            android:id="@+id/etNowEnhance2Level"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:hint="0"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvEnhance2"
+            app:layout_constraintEnd_toStartOf="@id/etGoalEnhance2Level"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvEnhance2" />
+
+        <EditText
+            android:id="@+id/etGoalEnhance2Level"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:hint="30"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvEnhance2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etNowEnhance2Level"
+            app:layout_constraintTop_toTopOf="@id/tvEnhance2" />
+
+        <TextView
+            android:id="@+id/tvEnhance3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="5차강화-3"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEnhance2" />
+
+        <EditText
+            android:id="@+id/etNowEnhance3Level"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:hint="0"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvEnhance3"
+            app:layout_constraintEnd_toStartOf="@id/etGoalEnhance3Level"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvEnhance3" />
+
+        <EditText
+            android:id="@+id/etGoalEnhance3Level"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:hint="30"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvEnhance3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etNowEnhance3Level"
+            app:layout_constraintTop_toTopOf="@id/tvEnhance3" />
+
+        <TextView
+            android:id="@+id/tvEnhance4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="5차강화-4"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEnhance3" />
+
+        <EditText
+            android:id="@+id/etNowEnhance4Level"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:hint="0"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvEnhance4"
+            app:layout_constraintEnd_toStartOf="@id/etGoalEnhance4Level"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvEnhance4" />
+
+        <EditText
+            android:id="@+id/etGoalEnhance4Level"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:hint="30"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/tvEnhance4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etNowEnhance4Level"
+            app:layout_constraintTop_toTopOf="@id/tvEnhance4" />
+
+        <Button
+            android:id="@+id/btCalculate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="솔 에르다 계산하기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etNowEnhance4Level" />
+
+        <ImageView
+            android:id="@+id/ivSoleErda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/sole_erda"
+            app:layout_constraintEnd_toStartOf="@id/tvSoleErda"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btCalculate" />
+
+        <TextView
+            android:id="@+id/tvSoleErda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/ivSoleErdaPiece"
+            app:layout_constraintStart_toEndOf="@id/ivSoleErda"
+            app:layout_constraintTop_toBottomOf="@id/btCalculate" />
+
+        <ImageView
+            android:id="@+id/ivSoleErdaPiece"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/sole_erda_piece"
+            app:layout_constraintEnd_toStartOf="@id/tvSoleErdaPiece"
+            app:layout_constraintStart_toEndOf="@id/tvSoleErda"
+            app:layout_constraintTop_toBottomOf="@id/btCalculate" />
+
+        <TextView
+            android:id="@+id/tvSoleErdaPiece"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivSoleErdaPiece"
+            app:layout_constraintTop_toBottomOf="@id/btCalculate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
