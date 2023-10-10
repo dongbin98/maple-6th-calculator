@@ -22,19 +22,19 @@ fun calculate(nowOriginLevel: Int, goalOriginLevel: Int, nowMasteryLevel: Int, g
     var soleErda: Int = 0
     var soleErdaPiece: Int = 0
 
-    soleErda += originSoleErdaReq.subList(nowOriginLevel-1, goalOriginLevel-1).sum()
-    soleErda += masterySoleErdaReq.subList(nowMasteryLevel-1, goalMasteryLevel-1).sum()
-    soleErda += enhanceSoleErdaReq.subList(nowEnhanceFirstLevel-1, goalEnhanceFirstLevel-1).sum()
-    soleErda += enhanceSoleErdaReq.subList(nowEnhanceSecondLevel-1, goalEnhanceSecondLevel-1).sum()
-    soleErda += enhanceSoleErdaReq.subList(nowEnhanceThirdLevel-1, goalEnhanceThirdLevel-1).sum()
-    soleErda += enhanceSoleErdaReq.subList(nowEnhanceFourthLevel-1, goalEnhanceFourthLevel-1).sum()
+    soleErda += originSoleErdaReq.subList(nowOriginLevel-1, goalOriginLevel-1).sum().coerceAtLeast(0)
+    soleErda += masterySoleErdaReq.subList(nowMasteryLevel-1, goalMasteryLevel-1).sum().coerceAtLeast(0)
+    soleErda += enhanceSoleErdaReq.subList(nowEnhanceFirstLevel-1, goalEnhanceFirstLevel-1).sum().coerceAtLeast(0)
+    soleErda += enhanceSoleErdaReq.subList(nowEnhanceSecondLevel-1, goalEnhanceSecondLevel-1).sum().coerceAtLeast(0)
+    soleErda += enhanceSoleErdaReq.subList(nowEnhanceThirdLevel-1, goalEnhanceThirdLevel-1).sum().coerceAtLeast(0)
+    soleErda += enhanceSoleErdaReq.subList(nowEnhanceFourthLevel-1, goalEnhanceFourthLevel-1).sum().coerceAtLeast(0)
 
-    soleErdaPiece += originSoleErdaPieceReq.subList(nowOriginLevel-1, goalOriginLevel-1).sum()
-    soleErdaPiece += masterySoleErdaPieceReq.subList(nowMasteryLevel-1, goalMasteryLevel-1).sum()
-    soleErdaPiece += enhanceSoleErdaPieceReq.subList(nowEnhanceFirstLevel-1, goalEnhanceFirstLevel-1).sum()
-    soleErdaPiece += enhanceSoleErdaPieceReq.subList(nowEnhanceSecondLevel-1, goalEnhanceSecondLevel-1).sum()
-    soleErdaPiece += enhanceSoleErdaPieceReq.subList(nowEnhanceThirdLevel-1, goalEnhanceThirdLevel-1).sum()
-    soleErdaPiece += enhanceSoleErdaPieceReq.subList(nowEnhanceFourthLevel-1, goalEnhanceFourthLevel-1).sum()
+    soleErdaPiece += originSoleErdaPieceReq.subList(nowOriginLevel-1, goalOriginLevel-1).sum().coerceAtLeast(0)
+    soleErdaPiece += masterySoleErdaPieceReq.subList(nowMasteryLevel-1, goalMasteryLevel-1).sum().coerceAtLeast(0)
+    soleErdaPiece += enhanceSoleErdaPieceReq.subList(nowEnhanceFirstLevel-1, goalEnhanceFirstLevel-1).sum().coerceAtLeast(0)
+    soleErdaPiece += enhanceSoleErdaPieceReq.subList(nowEnhanceSecondLevel-1, goalEnhanceSecondLevel-1).sum().coerceAtLeast(0)
+    soleErdaPiece += enhanceSoleErdaPieceReq.subList(nowEnhanceThirdLevel-1, goalEnhanceThirdLevel-1).sum().coerceAtLeast(0)
+    soleErdaPiece += enhanceSoleErdaPieceReq.subList(nowEnhanceFourthLevel-1, goalEnhanceFourthLevel-1).sum().coerceAtLeast(0)
 
     return ReqSole(soleErda, soleErdaPiece)
 }
