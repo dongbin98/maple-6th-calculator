@@ -5,19 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import com.dongbin.maple6thcalculator.data.AppDatabase
 import com.dongbin.maple6thcalculator.data.UserInfo
 import com.dongbin.maple6thcalculator.data.UserRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
-import java.lang.IllegalArgumentException
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLEncoder
 
 class MainViewModel(private val repository: UserRepository): ViewModel() {
 
@@ -42,37 +38,57 @@ class MainViewModel(private val repository: UserRepository): ViewModel() {
     suspend fun parse (nickName: String) {
         val url = "https://maplestory.nexon.com/N23Ranking/World/Total?c=$nickName&w=0"
 
+        Log.d("url", url)
         try {
             // HTTP GET 요청을 보내서 웹 페이지의 HTML을 가져옵니다.
-            val html = withContext(Dispatchers.IO) {
+            val doc = withContext(Dispatchers.IO) {
                 Jsoup.connect(url).get()
             }
 
-            // HTML에서 레벨, 경험치, 랭킹, 사진을 추출합니다.
-            val level = extractLevel(html)
-            val job = extractJob(html)
-            val photoUrl = extractImageUrl(html).replace("/180", "")
+            // 추출
+            val elements = doc.select("table.rank_table").select("tbody").select("tr")
 
-            // 결과 출력
-            Log.d("Level", level)
-            Log.d("Job", job)
-            Log.d("Photo URL", photoUrl)
+            var photoUrl: String? = null
+            var level: String? = null
+            var job: String? = null
 
-            // Url로 byteArray 생성
-            val image = withContext(Dispatchers.IO) {
-                convertImageToByteArray(photoUrl)
+            for (element in elements) {
+                // Log.d("html", element.html())
+                val searchNickName = element.select("td.left").select("dl").select("dt a").first()?.text()
+                Log.d("searchNickName", searchNickName.toString())
+                if (element.select("td.left").select("dl").select("dt a").first()?.text()?.lowercase() == nickName.lowercase()) {
+                    photoUrl = element?.select("span.char_img")?.select("img[src]")?.first()?.attr("src")?.replace("/180", "")
+                    level = element?.select("td:eq(2)")?.text()
+                    job = element?.select("dd")?.text()
+                    break
+                }
             }
 
-            Log.d("check", "check1")
+            Log.d("photoUrl", photoUrl.toString())
+            Log.d("level", level.toString())
+            Log.d("job", job.toString())
 
-            // 디비 저장
-            val user = UserInfo(name = nickName, level = Integer.parseInt(level.replace("Lv.", "")), job = job, image =  image)
-            Log.d("check", "check2")
-            withContext(Dispatchers.IO) {
-                repository.insert(user)
+            if ((photoUrl == null) or (level == null) or (job == null)) {
+                _insert.postValue(false)
+                return
+            } else {
+                // Url로 byteArray 생성
+                val image = withContext(Dispatchers.IO) {
+                    convertImageToByteArray(photoUrl!!)
+                }
+
+                // 디비 저장
+                val user = UserInfo(
+                    name = nickName,
+                    level = Integer.parseInt(level!!.replace("Lv.", "")),
+                    job = job!!,
+                    image = image
+                )
+                withContext(Dispatchers.IO) {
+                    repository.insert(user)
+                }
+                _insert.postValue(true)
             }
-            Log.d("check", "check3")
-            _insert.postValue(true)
 
         } catch (e: Exception) {
             // 예외 처리
@@ -103,24 +119,6 @@ class MainViewModel(private val repository: UserRepository): ViewModel() {
             Log.e("Exception", e.message.toString())
             _loadUser.postValue(null)
         }
-    }
-
-    // HTML에서 레벨을 추출하는 함수
-    private fun extractLevel(html: Document): String {
-        val levelElement: Element? = html.select("#container > div > div > div:nth-child(4) > div.rank_table_wrap > table > tbody > tr.search_com_chk > td:nth-child(3)").first()
-        return levelElement?.text() ?: ""
-    }
-
-    // HTML에서 직업을 추출하는 함수
-    private fun extractJob(html: Document): String {
-        val jobElement: Element? = html.select("#container > div > div > div:nth-child(4) > div.rank_table_wrap > table > tbody > tr.search_com_chk > td.left > dl > dd").first()
-        return jobElement?.text()?.split("/")?.get(1)?.replace(" ", "") ?: ""
-    }
-
-    // HTML에서 사진 URL을 추출하는 함수
-    private fun extractImageUrl(html: Document): String {
-        val imgElement: Element? = html.select("#container > div > div > div:nth-child(4) > div.rank_table_wrap > table > tbody > tr.search_com_chk > td.left > span > img:nth-child(1)").first()
-        return imgElement?.attr("src") ?: ""
     }
 
     // 이미지를 바이트 배열로 변환하는 함수
