@@ -1,6 +1,9 @@
 package com.dongbin.maple6thcalculator.ui.main
 
+import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.dongbin.maple6thcalculator.R
@@ -82,23 +85,53 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
 
         btCalculate.setOnClickListener {
-            val result = calculate(
-                Integer.parseInt(etNowOriginLevel.text.toString()),
-                Integer.parseInt(etGoalOriginLevel.text.toString()),
-                Integer.parseInt(etNowMasteryLevel.text.toString()),
-                Integer.parseInt(etGoalMasteryLevel.text.toString()),
-                Integer.parseInt(etNowEnhance1Level.text.toString()),
-                Integer.parseInt(etGoalEnhance1Level.text.toString()),
-                Integer.parseInt(etNowEnhance2Level.text.toString()),
-                Integer.parseInt(etGoalEnhance2Level.text.toString()),
-                Integer.parseInt(etNowEnhance3Level.text.toString()),
-                Integer.parseInt(etGoalEnhance3Level.text.toString()),
-                Integer.parseInt(etNowEnhance4Level.text.toString()),
-                Integer.parseInt(etGoalEnhance4Level.text.toString()),
-            )
+            calcErda()
+        }
 
-            tvSoleErda.text = result.erda.toString() + "개"
-            tvSoleErdaPiece.text = result.erdaPiece.toString() + "개"
+        etNowOriginLevel.addTextChangedListener(textWatcher)
+        etGoalOriginLevel.addTextChangedListener(textWatcher)
+        etNowMasteryLevel.addTextChangedListener(textWatcher)
+        etGoalMasteryLevel.addTextChangedListener(textWatcher)
+        etNowEnhance1Level.addTextChangedListener(textWatcher)
+        etGoalEnhance1Level.addTextChangedListener(textWatcher)
+        etGoalEnhance2Level.addTextChangedListener(textWatcher)
+        etNowEnhance3Level.addTextChangedListener(textWatcher)
+        etGoalEnhance3Level.addTextChangedListener(textWatcher)
+        etNowEnhance4Level.addTextChangedListener(textWatcher)
+        etGoalEnhance4Level.addTextChangedListener(textWatcher)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun calcErda() = with(binding) {
+        val result = calculate(
+            if (etNowOriginLevel.text.isNullOrBlank() or etNowOriginLevel.text.isNullOrEmpty()) 1 else Integer.parseInt(etNowOriginLevel.text.toString()),
+            if (etGoalOriginLevel.text.isNullOrBlank() or etGoalOriginLevel.text.isNullOrEmpty()) 1 else Integer.parseInt(etGoalOriginLevel.text.toString()),
+            if (etNowMasteryLevel.text.isNullOrBlank() or etNowMasteryLevel.text.isNullOrEmpty()) 1 else Integer.parseInt(etNowMasteryLevel.text.toString()),
+            if (etGoalMasteryLevel.text.isNullOrBlank() or etGoalMasteryLevel.text.isNullOrEmpty()) 1 else Integer.parseInt(etGoalMasteryLevel.text.toString()),
+            if (etNowEnhance1Level.text.isNullOrBlank() or etNowEnhance1Level.text.isNullOrEmpty()) 1 else Integer.parseInt(etNowEnhance1Level.text.toString()),
+            if (etGoalEnhance1Level.text.isNullOrBlank() or etGoalEnhance1Level.text.isNullOrEmpty()) 1 else Integer.parseInt(etGoalEnhance1Level.text.toString()),
+            if (etNowEnhance2Level.text.isNullOrBlank() or etNowEnhance2Level.text.isNullOrEmpty()) 1 else Integer.parseInt(etNowEnhance2Level.text.toString()),
+            if (etGoalEnhance2Level.text.isNullOrBlank() or etGoalEnhance2Level.text.isNullOrEmpty()) 1 else Integer.parseInt(etGoalEnhance2Level.text.toString()),
+            if (etNowEnhance3Level.text.isNullOrBlank() or etNowEnhance3Level.text.isNullOrEmpty()) 1 else Integer.parseInt(etNowEnhance3Level.text.toString()),
+            if (etGoalEnhance3Level.text.isNullOrBlank() or etGoalEnhance3Level.text.isNullOrEmpty()) 1 else Integer.parseInt(etGoalEnhance3Level.text.toString()),
+            if (etNowEnhance4Level.text.isNullOrBlank() or etNowEnhance4Level.text.isNullOrEmpty()) 1 else Integer.parseInt(etNowEnhance4Level.text.toString()),
+            if (etGoalEnhance4Level.text.isNullOrBlank() or etGoalEnhance4Level.text.isNullOrEmpty()) 1 else Integer.parseInt(etGoalEnhance4Level.text.toString()),
+        )
+
+        tvSoleErda.text = result.erda.toString() + "개"
+        tvSoleErdaPiece.text = result.erdaPiece.toString() + "개"
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            calcErda()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            calcErda()
         }
     }
 }
